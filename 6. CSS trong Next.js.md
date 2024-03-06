@@ -1,0 +1,22 @@
+# 6 | CSS trong Next.js
+
+## Global style
+
+Khi cần thêm CSS cho cả app: Ví dụ các thẻ cơ bản `body, html, a, p, h1, h2, h3, h4, h5, h6, ...` hay `*`, hoặc đôi khi cần thêm một số class để dùng toàn app thì cũng có thể thêm ở đây
+
+- CSS ở file `src/app/globals.css`
+- Nếu dùng tailwind thì nên dùng `@layer` để đảm bảo về tính dễ đọc cũng như là độ ưu tiên css khi build
+
+> Lưu ý rằng file này chỉ import 1 lần duy nhất trong toàn app
+
+## Tạo 1 class css phức tạp mà tailwind không hỗ trợ hoặc override 1 class thư viện nào đó
+
+- Dùng CSS Module để đảm bảo không bị xung đột với class css khác
+
+## Khi cần toggle class hoặc css động
+
+- Dùng `clsx`
+
+## Khác
+
+Ngoài ra còn 1 số giải pháp khác như styled component, emotion, styled-jsx,... Nhưng ở trên là đủ dùng và best practice cho 1 app Next.js thông thường
