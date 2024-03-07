@@ -32,7 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${myFont.variable}`}>{children}</body>
+      <body className={`${myFont.variable}`}>
+        <header>Header</header>
+        {children}
+      </body>
     </html>
   )
 }
