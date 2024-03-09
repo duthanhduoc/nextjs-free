@@ -14,6 +14,7 @@ import { createFolder } from '@/utils/helpers'
 import mediaRoutes from '@/routes/media.route'
 import staticRoutes from '@/routes/static.route'
 import productRoutes from '@/routes/product.route'
+import testRoutes from '@/routes/test.route'
 
 const fastify = Fastify({
   logger: false
@@ -54,6 +55,9 @@ const start = async () => {
     })
     fastify.register(productRoutes, {
       prefix: '/products'
+    })
+    fastify.register(testRoutes, {
+      prefix: '/test'
     })
     await fastify.listen({
       port: envConfig.PORT
