@@ -9,6 +9,11 @@ const nextConfig = {
         pathname: '/photos/**'
       }
     ]
+  },
+  logging: {
+    fetches: {
+      fullUrl: true
+    }
   }
 }
 
