@@ -17,7 +17,7 @@ export default function Home() {
           <Link href={'/register'}>Register</Link>
         </li>
       </ul>
-      <ButtonRedirect />
+      {/* <ButtonRedirect /> */}
     </main>
   )
 }
