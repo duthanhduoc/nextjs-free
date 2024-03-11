@@ -1,5 +1,5 @@
 // Import the framework and instantiate it
-import envConfig from '@/config'
+import envConfig, { API_URL } from '@/config'
 import { errorHandlerPlugin } from '@/plugins/errorHandler.plugins'
 import validatorCompilerPlugin from '@/plugins/validatorCompiler.plugins'
 import accountRoutes from '@/routes/account.route'
@@ -62,6 +62,7 @@ const start = async () => {
     await fastify.listen({
       port: envConfig.PORT
     })
+    console.log(`Server đang chạy: ${API_URL}`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)

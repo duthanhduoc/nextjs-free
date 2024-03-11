@@ -1,4 +1,5 @@
-import { AuthError, EntityError, ForbiddenError, StatusError } from '@/utils/errors'
+import { AuthError, EntityError, ForbiddenError, StatusError, isPrismaClientKnownRequestError } from '@/utils/errors'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { FastifyError } from 'fastify'
 import fastifyPlugin from 'fastify-plugin'
 import { ZodError } from 'zod'
@@ -42,7 +43,7 @@ const isStatusError = (error: any): error is StatusError => {
 
 export const errorHandlerPlugin = fastifyPlugin(async (fastify) => {
   fastify.setErrorHandler(function (
-    error: EntityError | AuthError | ForbiddenError | FastifyError | ZodFastifyError,
+    error: EntityError | AuthError | ForbiddenError | FastifyError | ZodFastifyError | PrismaClientKnownRequestError,
     request,
     reply
   ) {
@@ -91,8 +92,14 @@ export const errorHandlerPlugin = fastifyPlugin(async (fastify) => {
         code: error.code,
         statusCode
       })
+    } else if (isPrismaClientKnownRequestError(error) && error.code === 'P2025') {
+      const statusCode = 404
+      return reply.status(statusCode).send({
+        message: 'Không tìm thấy dữ liệu!',
+        statusCode: statusCode
+      })
     } else {
-      const statusCode = error.statusCode || 400
+      const statusCode = (error as any).statusCode || 400
       return reply.status(statusCode).send({
         message: error.message,
         error,

@@ -45,7 +45,11 @@ Bạn enter url `/profile`
 => Trình duyệt nhận được trang `/profile` và chạy `use client` `AuthenticatedComponent`
 => `AuthenticatedComponent` sẽ kiểm tra xem có token trong localStorage không, nếu có thì render trang `/profile` ra, nếu không thì render ra `Chưa đăng nhập`
 
-Kết quả vẫn đúng, người dùng vẫn thấy trang `/profile` nếu đã authenticated, nhưng có sự không đồng nhất giữa server và client, điều này không tốt.
+Kết quả vẫn đúng, người dùng vẫn thấy trang `/profile` nếu đã authenticated nhưng cách này có một số khuyết điểm
+
+- Profile Component phải là một client nếu chúng ta cần fetch các api cần authenticated, vì chỉ có client mới có thể truy cập được vào localStorage
+
+- Không đồng nhất giữa server và client, điều này không tốt.
 
 Cách giải quyết là dùng middleware ở server next.js
 

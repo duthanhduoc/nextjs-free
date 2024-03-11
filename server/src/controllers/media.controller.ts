@@ -4,7 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import util from 'util'
 import { pipeline } from 'stream'
-import envConfig from '@/config'
+import envConfig, { API_URL } from '@/config'
 const pump = util.promisify(pipeline)
 
 export const uploadImage = async (data: MultipartFile) => {
@@ -18,6 +18,6 @@ export const uploadImage = async (data: MultipartFile) => {
     await fs.unlinkSync(filepath)
     throw new Error('Giới hạn file là 10MB')
   }
-  const url = envConfig.DOMAIN + `:${envConfig.PORT}` + '/static/' + id
+  const url = `${API_URL}` + '/static/' + id
   return url
 }
