@@ -1,5 +1,12 @@
+import { ModeToggle } from '@/components/mode-toggle'
+
 const RegisterPage = () => {
-  return <div>Register page</div>
+  return (
+    <div>
+      <ModeToggle />
+      Register page
+    </div>
+  )
 }
 
 export default RegisterPage
