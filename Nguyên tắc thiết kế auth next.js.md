@@ -1,4 +1,4 @@
-# Nguyên tắc thiết kế Auth trong Next.js
+# Quản lý Auth trong Next.js
 
 Để xác thực một request thì backend thường sẽ xác thực qua 2 cách:
 
@@ -10,6 +10,8 @@ Cách dùng Cookie có ưu điểm là an toàn hơn 1 chút so với cách dùn
 Next.js chúng ta có thể dùng 2 cách trên, nhưng nó phức tạp hơn so với React.Js Client Side Rendering (CSR) truyền thống vì Next.js có cả Server và Client
 
 ## Cách 1: Dùng localStorage
+
+Cách này chỉ áp dụng cho server check authentication dựa vào header `Authorization` của request.
 
 - Tại trang login, chúng ta gọi api `/api/login` để đăng nhập. Nếu đăng nhập thành công, server sẽ trả về token, chúng ta lưu token vào localStorage. Việc này chúng ta sẽ làm ở phía client hoàn toàn.
 
@@ -97,5 +99,7 @@ Nhưng với cá nhân mình là người cầu toàn thì không thích khuyế
 Để giải quyết điều này thì chúng ta không nên dùng LocalSoage mà nên dùng Cookie để lưu token nhé. Đi đến cách 2 nào.
 
 ## Cách 2: Dùng Cookie
+
+Cách này áp dụng cho Server check token dựa vào cookie hay header `Authorization` đều được.
 
 Tại trang login chúng ta gọi api là `/app/login` từ Server Action để đăng nhập. Chúng ta dùng Server Action để làm proxy, trong server action, khi login thành công, chúng ta sẽ set cookie `token` vào trình duyệt và trả về token cho client để client set vào Context API hoặc caching react tùy thích (phục vụ nếu cần gọi api ở client).

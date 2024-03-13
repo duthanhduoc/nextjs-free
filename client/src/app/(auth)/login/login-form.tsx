@@ -53,6 +53,7 @@ const LoginForm = () => {
       toast({
         description: result.payload.message
       })
+      localStorage.setItem('sessionToken', result.payload.data.token)
     } catch (error: any) {
       const errors = error.payload.errors as {
         field: string

@@ -31,22 +31,32 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
     async (request, reply) => {
       const { body } = request
       const { session, account } = await registerController(body)
-      reply
-        .setCookie('sessionToken', session.token, {
-          path: '/',
-          httpOnly: true,
-          secure: true,
-          expires: session.expiresAt,
-          sameSite: 'none',
-          domain: envConfig.DOMAIN
-        })
-        .send({
+      if (envConfig.COOKIE_MODE) {
+        reply
+          .setCookie('sessionToken', session.token, {
+            path: '/',
+            httpOnly: true,
+            secure: true,
+            expires: session.expiresAt,
+            sameSite: 'none',
+            domain: envConfig.DOMAIN
+          })
+          .send({
+            message: 'Đăng ký thành công',
+            data: {
+              token: session.token,
+              account
+            }
+          })
+      } else {
+        reply.send({
           message: 'Đăng ký thành công',
           data: {
             token: session.token,
             account
           }
         })
+      }
     }
   )
   fastify.post<{ Reply: MessageResType }>(
@@ -62,16 +72,22 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
     async (request, reply) => {
       const { sessionToken } = request.cookies
       const message = await logoutController(sessionToken as string)
-      reply
-        .clearCookie('sessionToken', {
-          path: '/',
-          httpOnly: true,
-          sameSite: 'none',
-          secure: true
-        })
-        .send({
+      if (envConfig.COOKIE_MODE) {
+        reply
+          .clearCookie('sessionToken', {
+            path: '/',
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true
+          })
+          .send({
+            message
+          })
+      } else {
+        reply.send({
           message
         })
+      }
     }
   )
   fastify.post<{ Reply: LoginResType; Body: LoginBodyType }>(
@@ -87,22 +103,32 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
     async (request, reply) => {
       const { body } = request
       const { session, account } = await loginController(body)
-      reply
-        .setCookie('sessionToken', session.token, {
-          path: '/',
-          httpOnly: true,
-          secure: true,
-          expires: session.expiresAt,
-          sameSite: 'none',
-          domain: envConfig.DOMAIN
-        })
-        .send({
+      if (envConfig.COOKIE_MODE) {
+        reply
+          .setCookie('sessionToken', session.token, {
+            path: '/',
+            httpOnly: true,
+            secure: true,
+            expires: session.expiresAt,
+            sameSite: 'none',
+            domain: envConfig.DOMAIN
+          })
+          .send({
+            message: 'Đăng nhập thành công',
+            data: {
+              token: session.token,
+              account
+            }
+          })
+      } else {
+        reply.send({
           message: 'Đăng nhập thành công',
           data: {
             token: session.token,
             account
           }
         })
+      }
     }
   )
 }
