@@ -1,4 +1,5 @@
 import envConfig from '@/config'
+import { normalizePath } from '@/lib/utils'
 import { LoginResType } from '@/schemaValidations/auth.schema'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
@@ -109,10 +110,18 @@ const request = async <Response>(
       throw new HttpError(data)
     }
   }
-  if (['/auth/login', '/auth/register'].includes(url)) {
-    clientSessionToken.value = (payload as LoginResType).data.token
-  } else if ('/auth/logout'.includes(url)) {
-    clientSessionToken.value = ''
+  if (typeof window !== 'undefined') {
+    if (
+      ['auth/login', 'auth/register'].some(
+        (item) => item === normalizePath(url)
+      )
+    ) {
+      clientSessionToken.value = (payload as LoginResType).data.token
+      console.log('clientSessionToken.value', clientSessionToken.value)
+    } else if ('api/auth/logout' === normalizePath(url)) {
+      clientSessionToken.value = ''
+      console.log('clientSessionToken.value', clientSessionToken.value)
+    }
   }
   return data
 }
