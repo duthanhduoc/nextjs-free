@@ -70,7 +70,9 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
       preValidation: fastify.auth([requireLoginedHook])
     },
     async (request, reply) => {
-      const { sessionToken } = request.cookies
+      const sessionToken = envConfig.COOKIE_MODE
+        ? request.cookies.sessionToken
+        : request.headers.authorization?.split(' ')[1]
       const message = await logoutController(sessionToken as string)
       if (envConfig.COOKIE_MODE) {
         reply
