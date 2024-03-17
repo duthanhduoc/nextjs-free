@@ -52,6 +52,25 @@ export const logoutController = async (sessionToken: string) => {
   return 'Đăng xuất thành công'
 }
 
+export const refreshSessionController = async (sessionToken: string) => {
+  const oldSession = await prisma.session.delete({
+    where: {
+      token: sessionToken
+    }
+  })
+  const newSessionToken = signSessionToken({
+    userId: oldSession.accountId
+  })
+  const expiresAt = addMilliseconds(new Date(), ms(envConfig.SESSION_TOKEN_EXPIRES_IN))
+  const newSession = await prisma.session.create({
+    data: {
+      token: newSessionToken,
+      accountId: oldSession.accountId,
+      expiresAt
+    }
+  })
+  return newSession
+}
 export const loginController = async (body: LoginBodyType) => {
   const account = await prisma.account.findUnique({
     where: {

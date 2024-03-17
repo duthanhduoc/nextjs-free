@@ -136,7 +136,11 @@ Khi register, login thành công thì server sẽ tự động set cookie cho do
 }
 ```
 
-- `POST /auth/logout`: Đăng xuất với body là `null`, yêu cầu xác thực
+- `POST /auth/refresh-session`: Làm mới lại session token trước khi nó hết hạn. Body là `{}`
+
+Yêu cầu cần phải gửi lên `sessionToken`
+
+- `POST /auth/logout`: Đăng xuất với body là `{}`, yêu cầu xác thực
 
 Khi logout thì server của mình sẽ tự động remove cookie `sessionToken` đi
 
