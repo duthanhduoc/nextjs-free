@@ -1,12 +1,15 @@
 import envConfig from '@/config'
 import { normalizePath } from '@/lib/utils'
 import { LoginResType } from '@/schemaValidations/auth.schema'
+import { redirect } from 'next/navigation'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
   baseUrl?: string | undefined
 }
 
 const ENTITY_ERROR_STATUS = 422
+const AUTHENTICATION_ERROR_STATUS = 401
+export const AUTHENTICATION_ERROR_MESSAGE = 'Unauthorized'
 
 type EntityErrorPayload = {
   message: string
@@ -40,6 +43,25 @@ export class EntityError extends HttpError {
     payload: EntityErrorPayload
   }) {
     super({ status, payload })
+    this.status = status
+    this.payload = payload
+  }
+}
+export class AuthError extends Error {
+  status: 401
+  payload: {
+    message: string
+  }
+  constructor({
+    status,
+    payload
+  }: {
+    status: 401
+    payload: {
+      message: string
+    }
+  }) {
+    super(AUTHENTICATION_ERROR_MESSAGE)
     this.status = status
     this.payload = payload
   }
@@ -106,6 +128,23 @@ const request = async <Response>(
           payload: EntityErrorPayload
         }
       )
+    } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
+      if (typeof window !== 'undefined') {
+        await fetch('/api/auth/logout', {
+          headers: {
+            ...baseHeaders
+          },
+          body: JSON.stringify({ force: true }),
+          method: 'POST'
+        })
+        clientSessionToken.value = ''
+        location.href = '/login'
+      } else {
+        const sessionToken = (options?.headers as any)?.Authorization?.split(
+          'Bearer '
+        )[1]
+        redirect(`/logout?sessionToken=${sessionToken}`)
+      }
     } else {
       throw new HttpError(data)
     }

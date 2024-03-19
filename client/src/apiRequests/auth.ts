@@ -25,10 +25,10 @@ const authApiRequest = {
         }
       }
     ),
-  logoutFromNextClientToNextServer: () =>
+  logoutFromNextClientToNextServer: (force?: boolean | undefined) =>
     http.post<MessageResType>(
       '/api/auth/logout',
-      {},
+      { force },
       {
         baseUrl: ''
       }

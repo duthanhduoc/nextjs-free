@@ -1,8 +1,9 @@
 import { toast } from '@/components/ui/use-toast'
-import { EntityError } from '@/lib/http'
+import { AuthError, EntityError } from '@/lib/http'
 import { type ClassValue, clsx } from 'clsx'
 import { UseFormSetError } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
+import jwt from 'jsonwebtoken'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -38,4 +39,12 @@ export const handleErrorApi = ({
  */
 export const normalizePath = (path: string) => {
   return path.startsWith('/') ? path.slice(1) : path
+}
+
+export const isAuthError = (error: any) => {
+  return error instanceof AuthError
+}
+
+export const decodeJwt = <Payload = any>(token: string) => {
+  return jwt.decode(token) as Payload
 }

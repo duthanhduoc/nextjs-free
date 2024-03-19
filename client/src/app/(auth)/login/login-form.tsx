@@ -13,14 +13,15 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { LoginBody, LoginBodyType } from '@/schemaValidations/auth.schema'
-import { useToast, toast } from '@/components/ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 import authApiRequest from '@/apiRequests/auth'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { handleErrorApi } from '@/lib/utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
+  const searchParams = useSearchParams()
   const { toast } = useToast()
   const router = useRouter()
   const form = useForm<LoginBodyType>({
@@ -30,6 +31,13 @@ const LoginForm = () => {
       password: ''
     }
   })
+
+  useEffect(() => {
+    if (searchParams.get('redirectFrom') === '/logout') {
+      console.log(11)
+      // alert('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
+    }
+  }, [searchParams])
 
   // 2. Define a submit handler.
   async function onSubmit(values: LoginBodyType) {
