@@ -2,7 +2,7 @@ import envConfig from '@/config'
 import {
   loginController,
   logoutController,
-  refreshSessionController,
+  slideSessionController,
   registerController
 } from '@/controllers/auth.controller'
 import { requireLoginedHook } from '@/hooks/auth.hooks'
@@ -11,10 +11,10 @@ import {
   LoginBodyType,
   LoginRes,
   LoginResType,
-  RefreshSessionBody,
-  RefreshSessionBodyType,
-  RefreshSessionRes,
-  RefreshSessionResType,
+  SlideSessionBody,
+  SlideSessionBodyType,
+  SlideSessionRes,
+  SlideSessionResType,
   RegisterBody,
   RegisterBodyType,
   RegisterRes,
@@ -62,6 +62,7 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
           message: 'Đăng ký thành công',
           data: {
             token: session.token,
+            expiresAt: session.expiresAt.toISOString(),
             account
           }
         })
@@ -136,6 +137,7 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
           message: 'Đăng nhập thành công',
           data: {
             token: session.token,
+            expiresAt: session.expiresAt.toISOString(),
             account
           }
         })
@@ -143,14 +145,14 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
     }
   )
 
-  fastify.post<{ Reply: RefreshSessionResType; Body: RefreshSessionBodyType }>(
-    '/refresh-session',
+  fastify.post<{ Reply: SlideSessionResType; Body: SlideSessionBodyType }>(
+    '/slide-session',
     {
       schema: {
         response: {
-          200: RefreshSessionRes
+          200: SlideSessionRes
         },
-        body: RefreshSessionBody
+        body: SlideSessionBody
       },
       preValidation: fastify.auth([requireLoginedHook])
     },
@@ -158,7 +160,7 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
       const sessionToken = envConfig.COOKIE_MODE
         ? request.cookies.sessionToken
         : request.headers.authorization?.split(' ')[1]
-      const session = await refreshSessionController(sessionToken as string)
+      const session = await slideSessionController(sessionToken as string)
       if (envConfig.COOKIE_MODE) {
         reply
           .setCookie('sessionToken', session.token, {
@@ -181,6 +183,7 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
           message: 'Refresh session thành công',
           data: {
             token: session.token,
+            expiresAt: session.expiresAt.toISOString(),
             account: request.account!
           }
         })

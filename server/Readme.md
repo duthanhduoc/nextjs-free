@@ -136,9 +136,9 @@ Khi register, login thành công thì server sẽ tự động set cookie cho do
 }
 ```
 
-- `POST /auth/refresh-session`: Làm mới lại session token trước khi nó hết hạn. Body là `{}`
+- `POST /auth/slide-session`: Tăng thời gian hết hạn của session token. Body là `{}`
 
-Yêu cầu cần phải gửi lên `sessionToken`
+Yêu cầu cần phải gửi lên `sessionToken` (qua cookie hay Authorization header là tùy mode của bạn)
 
 - `POST /auth/logout`: Đăng xuất với body là `{}`, yêu cầu xác thực
 
