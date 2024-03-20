@@ -6,6 +6,7 @@ import Header from '@/components/header'
 import { Toaster } from '@/components/ui/toaster'
 import AppProvider from '@/app/AppProvider'
 import { cookies } from 'next/headers'
+import SlidingSession from '@/components/sliding-session'
 
 const inter = Inter({ subsets: ['vietnamese'] })
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <Header />
           <AppProvider inititalSessionToken={sessionToken?.value}>
             {children}
+            <SlidingSession />
           </AppProvider>
         </ThemeProvider>
       </body>

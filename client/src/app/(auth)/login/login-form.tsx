@@ -40,7 +40,10 @@ const LoginForm = () => {
       toast({
         description: result.payload.message
       })
-      await authApiRequest.auth({ sessionToken: result.payload.data.token })
+      await authApiRequest.auth({
+        sessionToken: result.payload.data.token,
+        expiresAt: result.payload.data.expiresAt
+      })
       router.push('/me')
     } catch (error: any) {
       handleErrorApi({
