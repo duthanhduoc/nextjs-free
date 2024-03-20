@@ -54,6 +54,7 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
             message: 'Đăng ký thành công',
             data: {
               token: session.token,
+              expiresAt: session.expiresAt.toISOString(),
               account
             }
           })
@@ -129,6 +130,7 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
             message: 'Đăng nhập thành công',
             data: {
               token: session.token,
+              expiresAt: session.expiresAt.toISOString(),
               account
             }
           })
@@ -175,7 +177,8 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
             message: 'Refresh session thành công',
             data: {
               token: session.token,
-              account: request.account!
+              account: request.account!,
+              expiresAt: session.expiresAt.toISOString()
             }
           })
       } else {
