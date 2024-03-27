@@ -1,4 +1,5 @@
 import productApiRequest from '@/apiRequests/product'
+import ProductAddForm from '@/app/products/_components/product-add-form'
 
 export default async function ProductEdit({
   params
@@ -14,7 +15,7 @@ export default async function ProductEdit({
   return (
     <div>
       {!product && <div>Không tìm thấy sản phẩm</div>}
-      {product && <div>{product.name}</div>}
+      {product && <ProductAddForm product={product} />}
     </div>
   )
 }
