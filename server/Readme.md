@@ -8,6 +8,10 @@
 - Media: Upload hình ảnh
 - Test API
 
+> Lưu ý quan trọng: thỉnh thoảng nên pull code mới từ github repo của mình về, vì đôi khi mình có cập nhật logic API trong quá trình mình quay video
+
+> Trong file `server/.env` có thuộc tính `COOKIE_MODE`, hãy set `true` nếu bạn muốn dùng cookie cho việc authentication ở server
+
 ## Công nghệ sử dụng
 
 Node.js + Fastify + Sqlite
