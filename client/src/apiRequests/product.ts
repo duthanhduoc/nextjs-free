@@ -7,6 +7,7 @@ import {
 
 const productApiRequest = {
   getList: () => http.get<ProductListResType>('/products'),
+  getDetail: (id: number) => http.get<ProductResType>(`/products/${id}`),
   create: (body: CreateProductBodyType) =>
     http.post<ProductResType>('/products', body),
   uploadImage: (body: FormData) =>
