@@ -58,6 +58,7 @@ const ProductAddForm = ({ product }: { product?: Product }) => {
         description: result.payload.message
       })
       router.push('/products')
+      router.refresh()
     } catch (error: any) {
       handleErrorApi({
         error,

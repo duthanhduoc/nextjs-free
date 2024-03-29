@@ -17,7 +17,7 @@ import productRoutes from '@/routes/product.route'
 import testRoutes from '@/routes/test.route'
 
 const fastify = Fastify({
-  logger: false
+  logger: true
 })
 
 // Run the server!
