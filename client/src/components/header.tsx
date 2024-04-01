@@ -9,7 +9,7 @@ export default async function Header({
   user: AccountResType['data'] | null
 }) {
   return (
-    <div>
+    <div className='flex space-x-4'>
       <ul className='flex space-x-4'>
         <li>
           <Link href='/products'>Sản phẩm</Link>
