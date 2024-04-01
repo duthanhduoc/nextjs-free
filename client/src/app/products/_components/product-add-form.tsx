@@ -90,6 +90,7 @@ const ProductAddForm = ({ product }: { product?: Product }) => {
       toast({
         description: result.payload.message
       })
+      router.refresh()
     } catch (error: any) {
       handleErrorApi({
         error,
