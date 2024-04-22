@@ -1,5 +1,4 @@
 'use client'
-import { clientSessionToken } from '@/lib/http'
 import { AccountResType } from '@/schemaValidations/account.schema'
 import { createContext, useContext, useState } from 'react'
 
@@ -18,20 +17,12 @@ export const useAppContext = () => {
 }
 export default function AppProvider({
   children,
-  inititalSessionToken = '',
   user: userProp
 }: {
   children: React.ReactNode
-  inititalSessionToken?: string
   user: User | null
 }) {
   const [user, setUser] = useState<User | null>(userProp)
-  useState(() => {
-    if (typeof window !== 'undefined') {
-      clientSessionToken.value = inititalSessionToken
-    }
-  })
-
   return (
     <AppContext.Provider
       value={{
