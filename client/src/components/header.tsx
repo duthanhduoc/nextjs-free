@@ -1,22 +1,18 @@
+'use client'
+import { useAppContext } from '@/app/app-provider'
 import ButtonLogout from '@/components/button-logout'
 import { ModeToggle } from '@/components/mode-toggle'
-import { AccountResType } from '@/schemaValidations/account.schema'
 import Link from 'next/link'
 
-export default async function Header({
-  user
-}: {
-  user: AccountResType['data'] | null
-}) {
+export default function Header() {
+  const { user } = useAppContext()
   return (
     <div className='flex space-x-4'>
       <ul className='flex space-x-4'>
         <li>
           <Link href='/products'>Sản phẩm</Link>
         </li>
-        <li>
-          <ButtonLogout />
-        </li>
+
         {user ? (
           <>
             <li>
