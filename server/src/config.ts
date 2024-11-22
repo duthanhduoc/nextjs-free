@@ -24,7 +24,8 @@ const configSchema = z.object({
   DOMAIN: z.string(),
   PROTOCOL: z.string(),
   UPLOAD_FOLDER: z.string(),
-  COOKIE_MODE: z.enum(['true', 'false']).transform((val) => val === 'true')
+  COOKIE_MODE: z.enum(['true', 'false']).transform((val) => val === 'true'),
+  IS_PRODUCTION: z.enum(['true', 'false']).transform((val) => val === 'true')
 })
 
 const configServer = configSchema.safeParse(process.env)

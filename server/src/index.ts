@@ -60,7 +60,8 @@ const start = async () => {
       prefix: '/test'
     })
     await fastify.listen({
-      port: envConfig.PORT
+      port: envConfig.PORT,
+      host: envConfig.IS_PRODUCTION ? '0.0.0.0' : 'localhost'
     })
     console.log(`Server đang chạy: ${API_URL}`)
   } catch (err) {
