@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import productApiRequest from '@/apiRequests/product'
 import Image from 'next/image'
 import Link from 'next/link'

@@ -6,14 +6,12 @@ import { cache } from 'react'
 const getDetail = cache(productApiRequest.getDetail)
 
 type Props = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = await props.params;
   const { payload } = await getDetail(Number(params.id))
   const product = payload.data
   return {
@@ -22,7 +20,8 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProductEdit({ params }: Props) {
+export default async function ProductEdit(props: Props) {
+  const params = await props.params;
   let product = null
   try {
     const { payload } = await getDetail(Number(params.id))

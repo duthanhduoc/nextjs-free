@@ -1,11 +1,14 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { isClient } from '@/lib/http'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function ProductAddButton() {
-  const isAuthenticated =
-    isClient() && Boolean(localStorage.getItem('sessionToken'))
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  useEffect(() => {
+    setIsAuthenticated(Boolean(localStorage.getItem('sessionToken')))
+  }, [])
+
   if (!isAuthenticated) return null
   return (
     <Link href={'/products/add'}>

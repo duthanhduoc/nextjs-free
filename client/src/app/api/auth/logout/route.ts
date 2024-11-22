@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       }
     )
   }
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const sessionToken = cookieStore.get('sessionToken')
   if (!sessionToken) {
     return Response.json(

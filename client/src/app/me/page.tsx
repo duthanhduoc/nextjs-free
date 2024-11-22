@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 export default async function MeProfile() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const sessionToken = cookieStore.get('sessionToken')
   // Vì dùng cookie nên api này không được cached trên server
   // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#opting-out-of-data-caching
